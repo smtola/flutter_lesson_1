@@ -21,148 +21,72 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int count = 0;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Demo Flutter")),
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        padding: EdgeInsets.all(20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              alignment: Alignment.center,
-              width: double.infinity,
-              height: 250,
-              decoration: BoxDecoration(
-                color: Colors.blue,
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 1)],
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 30, top: 10),
-                        child: Row(
-                          children: [
-                            Text(
-                              "STUDENTS",
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Divider(color: Colors.black45, height: 4),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 30, top: 10),
-                        child: Row(
-                          children: [
-                            Text(
-                              "IDENTITY",
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          left: 30,
-                          right: 30,
-                          top: 10,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Student at",
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                Text(
-                                  "Cambodia",
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w300,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                Text(
-                                  "Name",
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                Text(
-                                  "Tola",
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w300,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                Text(
-                                  "Born",
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                Text(
-                                  "12/2/2000",
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w300,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            // Photo Section
-                            Column(
-                              children: [
-                                Image.network(
-                                  'https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671142.jpg?t=st=1771566027~exp=1771569627~hmac=b3918b131a3b19a7dbc2b5d07969de9f023ac1e07f9425948066b32c3c37247c&w=2000',
-                                  width: 120,
-                                  height: 120,
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+      body: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Container(
+            width: 120,
+            height: 120,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(color: Colors.blueAccent, width: 3),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black45,
+                  blurRadius: 10,
+                  offset: Offset(0, 4),
+                ),
+              ],
+            ),
+            child: ClipOval(
+              child: Image.network(
+                "https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671142.jpg",
+                width: 120,
+                height: 120,
+                fit: BoxFit.cover,
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return Center(child: CircularProgressIndicator());
+                },
+                errorBuilder: (context, error, stackTrace) {
+                  return Icon(Icons.person, size: 60, color: Colors.grey);
+                },
               ),
             ),
-          ],
-        ),
+          ),
+          //  Online Badge (green dot)
+          Positioned(
+            bottom: 4,
+            right: 4,
+            child: Container(
+              width: 22,
+              height: 22,
+              decoration: BoxDecoration(
+                color: Colors.green,
+                shape: BoxShape.circle,
+                border: Border.all(color: Colors.white, width: 2.5),
+              ),
+            ),
+          ),
+          //   Verified / Crown Badge
+          Positioned(
+            top: 0,
+            right: 0,
+            child: Container(
+              padding: EdgeInsets.all(4),
+              decoration: BoxDecoration(
+                color: Colors.blueAccent,
+                shape: BoxShape.circle,
+                border: Border.all(color: Colors.white, width: 2),
+              ),
+              child: Icon(Icons.verified, color: Colors.white, size: 14),
+            ),
+          ),
+        ],
       ),
     );
   }
